@@ -5,6 +5,8 @@ import java.io.*;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class WebHandler implements HttpHandler {
 
@@ -13,10 +15,13 @@ public class WebHandler implements HttpHandler {
 
     final String PREFIX = "website";
 
+    private static final Logger LOGGER = Logger.getLogger(WebHandler.class.getName());
+
     public WebHandler(ScriptManager scriptManager, SerialInterface serial) {
         this.scriptManager = scriptManager;
         this.serial = serial;
 
+        LOGGER.addHandler(new LogHandler());
     }
 
 
@@ -42,6 +47,7 @@ public class WebHandler implements HttpHandler {
 
     public void getRequest(HttpExchange exchange) {
 
+        LOGGER.log(Level.INFO, "Received GET request from " + exchange.getRemoteAddress().toString());
 
         String requestPath = exchange.getRequestURI().toString();
 
@@ -76,7 +82,7 @@ public class WebHandler implements HttpHandler {
             outputStream.close();
 
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, e.toString(), e);
         }
 
         exchange.close();
@@ -84,6 +90,8 @@ public class WebHandler implements HttpHandler {
     }
 
     public void postRequest(HttpExchange exchange) {
+
+        LOGGER.log(Level.INFO, "Received POST request from " + exchange.getRemoteAddress().toString());
 
         try {
 
@@ -97,9 +105,14 @@ public class WebHandler implements HttpHandler {
             byte[] response;
 
             if (request.equalsIgnoreCase("stop")) {
-                scriptManager.interrupt();
 
+                LOGGER.log(Level.INFO, "Interrupting script manager thread");
+
+                scriptManager.interrupt();
                 response = "Interrupted manager thread".getBytes(StandardCharsets.UTF_8);
+
+
+
             } else if (request.contains(":")) {
 
                 String[] stringArray = request.split(":");
@@ -130,7 +143,7 @@ public class WebHandler implements HttpHandler {
             outputStream.close();
 
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            LOGGER.log(Level.SEVERE, e.toString(), e);
         }
         exchange.close();
     }

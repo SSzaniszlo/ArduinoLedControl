@@ -1,14 +1,18 @@
+package website;
+
+import arduino.SerialInterface;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+import logging.LogHandler;
+import scripting.ScriptManager;
 
 import java.io.*;
-import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class WebHandler implements HttpHandler {
+class WebHandler implements HttpHandler {
 
     ScriptManager scriptManager;
     SerialInterface serial;

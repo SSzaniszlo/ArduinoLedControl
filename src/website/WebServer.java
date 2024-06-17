@@ -1,4 +1,9 @@
+package website;
+
+import arduino.SerialInterface;
 import com.sun.net.httpserver.HttpServer;
+import logging.LogHandler;
+import scripting.ScriptManager;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;

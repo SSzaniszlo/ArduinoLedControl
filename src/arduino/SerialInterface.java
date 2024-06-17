@@ -1,11 +1,11 @@
+package arduino;
+
 import com.fazecast.jSerialComm.SerialPort;
+import logging.LogHandler;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.Scanner;
-import java.util.logging.Handler;
 import java.util.logging.Level;
-import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
 public class SerialInterface {
@@ -28,7 +28,7 @@ public class SerialInterface {
         serialPort.setBaudRate(9600);
         serialPort.openPort();
 
-        LOGGER.log(Level.INFO, "Serial port at opened");
+        LOGGER.log(Level.INFO, "Serial port opened");
 
         outputStream = serialPort.getOutputStream();
     }

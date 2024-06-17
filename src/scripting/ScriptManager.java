@@ -1,8 +1,11 @@
+package scripting;
+
+import arduino.SerialInterface;
+import logging.LogHandler;
+
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.Scanner;
-import java.util.concurrent.BlockingQueue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
